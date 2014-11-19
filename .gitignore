@@ -2,3 +2,7 @@
 *.pyc
 
 *.log
+
+comment_header 
+
+.idea
