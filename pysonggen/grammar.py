@@ -44,9 +44,10 @@ class Grammar():
   """Just a simple class that holds the information of the parsing """
   def __init__(self,file_name):
     parser = ParseGrammar(file_name)
-
     self.rules = parser.parse_rules()
-    self.tree = {}
+
+  def get_a_tree(self,deep=3):
+    pass
 
   def __str__(self):
     return "Grammar: \n"+str(self.rules)
