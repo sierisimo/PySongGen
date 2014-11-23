@@ -18,15 +18,33 @@ class ParseGrammar():
     self.src = src
   def parse_rules(self):
     rules = {}
+    statements = []
 
     with open(self.src,"rt") as grammar_file:
+      line_number = 0
       while True:
           in_line = grammar_file.readline()
           if not in_line:
               break
           in_line = in_line[:-1]
-
+          line_number = line_number + 1
           statement = in_line.split('::')
+
+          #This are the syntax checks
+          first_c = "<" in statement[0]
+          second_c = ">" in statement[0]
+          third_c = "::" in in_line
+          fourth_c = "=" in statement[1]
+
+          if not first_c:
+            raise ParsingExceptionError("Missing '<' at line: "+str(line_number)+"  in statement: "+in_line)
+          if not second_c:
+            raise ParsingExceptionError("Missing '>' at line: "+str(line_number)+"  in statement: "+in_line)
+          if not third_c:
+            raise ParsingExceptionError("Missing '::' at line: "+str(line_number)+"  in statement: "+in_line)
+          if not fourth_c:
+            raise ParsingExceptionError("Missing '=' at line: "+str(line_number)+"  in statement: "+in_line)
+
           rule = statement[0]
           cons = statement[1].split('=')[-1]
 
@@ -36,17 +54,18 @@ class ParseGrammar():
             rules[rule].append(cons)
           else:
             rules[rule] = [cons]
+
+          statements.append(cons)
     grammar_file.close()
 
-    for i, k in rules.items():
-      for j in k:
-        if "'" in j:
-          continue
-        tmp_list = j.split("<")[1:]
-        for l in tmp_list:
-          l = l.split(">")[0]
-          if not l in rules:
-            raise ParsingExceptionError("File malformed::Rule: "+l+"  founded at rule: "+i+" --> "+j+"   -- Not founded in file: "+self.src)
+    for j in statements:
+      if "'" in j:
+        continue
+      tmp_list = j.split("<")[1:]
+      for l in tmp_list:
+        l = l.split(">")[0]
+        if not l in rules:
+          raise ParsingExceptionError("File malformed::Rule: "+l+" -- Not founded in file: "+self.src+" -- at statement: "+in_line)
 
     return rules
 
