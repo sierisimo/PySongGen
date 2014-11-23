@@ -37,6 +37,17 @@ class ParseGrammar():
           else:
             rules[rule] = [cons]
     grammar_file.close()
+
+    for i, k in rules.items():
+      for j in k:
+        if "'" in j:
+          continue
+        tmp_list = j.split("<")[1:]
+        for l in tmp_list:
+          l = l.split(">")[0]
+          if not l in rules:
+            raise ParsingExceptionError("File malformed::Rule: "+l+"  founded at rule: "+i+" --> "+j+"   -- Not founded in file: "+self.src)
+
     return rules
 
 
