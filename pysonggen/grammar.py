@@ -18,7 +18,6 @@ class ParseGrammar():
     self.src = src
   def parse_rules(self):
     rules = {}
-    statements = []
 
     with open(self.src,"rt") as grammar_file:
       line_number = 0
@@ -50,22 +49,21 @@ class ParseGrammar():
 
           rule = rule.split('<')[-1].split('>')[0]
 
+          if "'" not in cons:
+            tmp_list = cons.split("<")[1:]
+            cons_list = []
+            for i in tmp_list:
+              i = i.split(">")[0]
+              cons_list.append(i)
+            else:
+              cons = cons_list
+
           if rule in rules:
             rules[rule].append(cons)
           else:
             rules[rule] = [cons]
 
-          statements.append(cons)
     grammar_file.close()
-
-    for j in statements:
-      if "'" in j:
-        continue
-      tmp_list = j.split("<")[1:]
-      for l in tmp_list:
-        l = l.split(">")[0]
-        if not l in rules:
-          raise ParsingExceptionError("File malformed::Rule: "+l+" -- Not founded in file: "+self.src+" -- at statement: "+in_line)
 
     return rules
 
@@ -77,7 +75,7 @@ class Grammar():
     self.rules = parser.parse_rules()
 
   def get_a_tree(self,deep=3):
-    pass
+
 
   def __str__(self):
     return "Grammar: \n"+str(self.rules)
