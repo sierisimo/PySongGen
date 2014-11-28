@@ -15,4 +15,9 @@ from pysonggen import grammar
 
 gram = grammar.Grammar('./examples/example.mgram')
 
-print(gram)
+while True:
+  print(gram)
+  gram.get_a_tree(input("""Give a sentence for making a song.
+  It's very IMPORTANT that use spaces between every letter
+  Example: A A A B
+  ->"""))

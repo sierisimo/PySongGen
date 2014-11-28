@@ -74,8 +74,12 @@ class Grammar():
     parser = ParseGrammar(file_name)
     self.rules = parser.parse_rules()
 
-  def get_a_tree(self,deep=3):
+  def get_a_tree(self,sentence,deep=3):
+    sentences_splited = sentence.split(" ")
+    for i in sentences_splited:
 
+      if not i in self.rules and i != ' ' and i != '':
+        raise RuleExceptionError(i,0)
 
   def __str__(self):
     return "Grammar: \n"+str(self.rules)
@@ -86,6 +90,15 @@ class ProbabilisticGrammar():
   def __init__(self):
     pass
 
+class RuleExceptionError(Exception):
+  """Exception for rules bad written"""
+  def __init__(self, rule, razon):
+    self.rule = rule
+    self.razon = razon
+
+  def __str__(self):
+    if self.razon == 0:
+      return "Error: The current rule is not specified in grammar file"
 
 class ParsingExceptionError(Exception):
   """Class for letting the user know that his file name is wrong"""
