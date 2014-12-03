@@ -74,12 +74,16 @@ class Grammar():
     parser = ParseGrammar(file_name)
     self.rules = parser.parse_rules()
 
-  def get_a_tree(self,sentence,deep=3):
-    sentences_splited = sentence.split(" ")
-    for i in sentences_splited:
-
+  def expand(self,sentence,deep=3):
+    sentence_list = []
+    for i in sentence.split(" "):
       if not i in self.rules and i != ' ' and i != '':
         raise RuleExceptionError(i,0)
+      elif i != '' and i != ' ':
+        sentence_list.append(i)
+
+
+
 
   def __str__(self):
     return "Grammar: \n"+str(self.rules)
