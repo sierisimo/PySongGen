@@ -1,6 +1,6 @@
 # Name: Grammar
 #
-# Version: 0.1.0
+# Version: 0.1.5
 #
 # Author: Sinuhe Valencia
 #
@@ -81,8 +81,27 @@ class Grammar():
         raise RuleExceptionError(i,0)
       elif i != '' and i != ' ':
         sentence_list.append(i)
+    full_sentence = []
 
+    def add_note(rule):
+      from random import randrange
 
+      set_of_rules = self.rules.get(rule)
+      size = len(set_of_rules)
+      choose = 0
+
+      if size != 1:
+        choose = randrange(0,size)
+
+      rule_c = set_of_rules[choose]
+      for i in range(0,len(rule_c)):
+        if "'" in rule_c[i]:
+          full_sentence.append(rule_c[i])
+        else:
+          add_note(rule_c[i])
+
+    add_note(sentence_list[0])
+    print(full_sentence)
 
 
   def __str__(self):

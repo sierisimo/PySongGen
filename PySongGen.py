@@ -14,7 +14,7 @@
 from pysonggen import grammar
 
 gram = grammar.Grammar('./examples/example.mgram')
-
+print(gram)
 while True:
 #  print(gram)
   gram.expand(input("""Give a sentence for making a song.
