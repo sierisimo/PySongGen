@@ -17,7 +17,9 @@ gram = grammar.Grammar('./examples/example.mgram')
 print(gram)
 while True:
 #  print(gram)
-  gram.expand(input("""Give a sentence for making a song.
+  notes = gram.expand(input("""Give a sentence for making a song.
 It's very IMPORTANT that use spaces between every letter
 Example: A A A B
   ->"""))
+  print(notes)
+  print("::::::")

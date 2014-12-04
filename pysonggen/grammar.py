@@ -75,6 +75,8 @@ class Grammar():
     self.rules = parser.parse_rules()
 
   def expand(self,sentence,deep=3):
+    from random import randrange
+
     sentence_list = []
     for i in sentence.split(" "):
       if not i in self.rules and i != ' ' and i != '':
@@ -84,8 +86,6 @@ class Grammar():
     full_sentence = []
 
     def add_note(rule):
-      from random import randrange
-
       set_of_rules = self.rules.get(rule)
       size = len(set_of_rules)
       choose = 0
@@ -94,14 +94,17 @@ class Grammar():
         choose = randrange(0,size)
 
       rule_c = set_of_rules[choose]
-      for i in range(0,len(rule_c)):
-        if "'" in rule_c[i]:
-          full_sentence.append(rule_c[i])
-        else:
+
+      if type(rule_c) != list:
+        full_sentence.append(rule_c)
+      else:
+        for i in range(0,len(rule_c)):
           add_note(rule_c[i])
 
-    add_note(sentence_list[0])
-    print(full_sentence)
+    for l in sentence_list:
+      add_note(l)
+
+    return full_sentence
 
 
   def __str__(self):
