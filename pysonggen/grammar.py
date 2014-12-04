@@ -74,7 +74,8 @@ class Grammar():
     parser = ParseGrammar(file_name)
     self.rules = parser.parse_rules()
 
-  def expand(self,sentence,deep=3):
+  #TODO: Make the 'deep' stop the recursion and start getting the notes...
+  def expand(self,sentence,deep=5):
     from random import randrange
 
     sentence_list = []
