@@ -21,5 +21,4 @@ while True:
 It's very IMPORTANT that use spaces between every letter
 Example: A A A B
   ->"""))
-  print(notes)
-  print("::::::")
+
