@@ -16,6 +16,7 @@ import os
 
 EXTENSION = "ogg"
 PREFIX = "mnotes"
+NOSOUND = "muted"
 
 class SongG():
   """Class for Generate songs"""
@@ -27,7 +28,7 @@ class SongG():
     self.notes = notes
 
     files = {}
-
+    song = None
 
     t_files_l = []
     for n in notes:
@@ -36,6 +37,22 @@ class SongG():
       if file_name != "-":
         file_name = file_name + "." + EXTENSION
 
-        if not file_name in t_files_l:
-          files[n] = AudioSegment.from_ogg(os.getcwd()+"/"+PREFIX+"/"+file_name)
-          t_files_l.append(file_name)
+      else:
+        file_name = NOSOUND + "." + EXTENSION
+
+      if not file_name in t_files_l:
+        files[n] = AudioSegment.from_ogg(os.getcwd()+"/"+PREFIX+"/"+file_name)
+        t_files_l.append(file_name)
+
+      if song == None:
+        song = files[n][:1000]
+      else:
+        song = song[:] + files[n][:1000]
+
+    print(notes)
+
+    self.files = files
+    self.song = song
+    print(notes)
+
+    song.export("L.ogg",format="ogg")
