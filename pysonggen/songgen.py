@@ -26,6 +26,7 @@ class SongG():
       raise TypeError("Expected a list, arguments is: " + str(type(notes)))
 
     self.notes = notes
+    self.name = "PySong"
 
     files = {}
     song = None
@@ -49,10 +50,9 @@ class SongG():
       else:
         song = song[:] + files[n][:1000]
 
-    print(notes)
-
     self.files = files
     self.song = song
-    print(notes)
 
-    song.export("L.ogg",format="ogg")
+  def save_song(self):
+    self.song.export(self.name+"."+EXTENSION,format="ogg")
+    print("Song saved in:"+str(os.getcwd())+"/"+self.name+"."+EXTENSION)
